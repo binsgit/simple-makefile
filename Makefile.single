@@ -1,0 +1,60 @@
+############################################################################
+# 'A Generic Makefile for Building Multiple main() Targets in $PWD'
+# Author:  Robert A. Nader (2012)
+# Email: naderra at some g
+# Web: xiberix
+# https://stackoverflow.com/a/13696012
+############################################################################
+#  The purpose of this makefile is to compile to executable all C source
+#  files in CWD, where each .c file has a main() function, and each object
+#  links with a common LDFLAG.
+#
+#  This makefile should suffice for simple projects that require building
+#  similar executable targets.  For example, if your CWD build requires
+#  exclusively this pattern:
+#
+#  cc -c $(CFLAGS) main_01.c
+#  cc main_01.o $(LDFLAGS) -o main_01
+#
+#  cc -c $(CFLAGS) main_2..c
+#  cc main_02.o $(LDFLAGS) -o main_02
+#
+#  etc, ... a common case when compiling the programs of some chapter,
+#  then you may be interested in using this makefile.
+#
+#  What YOU do:
+#
+#  Set CFLAGS and LDFLAGS according to your needs.
+#
+#  What this makefile does automagically:
+#
+#  Sets SRC to a list of *.c files in PWD using wildcard.
+#  Sets PRGS BINS and OBJS using pattern substitution.
+#  Compiles each individual .c to .o object file.
+#  Links each individual .o to its corresponding executable.
+#
+###########################################################################
+#
+CC := gcc
+LDFLAGS := 
+CFLAGS_INC := 
+CFLAGS := -g -W -Wall $(CFLAGS_INC)
+#
+## ==================- NOTHING TO CHANGE BELOW THIS LINE ===================
+##
+SRCS := $(wildcard *.c)
+BINS := $(patsubst %.c,%,$(SRCS))
+##
+all: $(BINS)
+##
+## Compile the executables
+$(BINS): %: %.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $<
+##
+## Clean All
+clean:
+	$(RM) $(BINS)
+##
+rebuild: clean all
+##
+## eof Generic_Multi_Main_PWD.makefile
