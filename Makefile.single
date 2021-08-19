@@ -39,21 +39,28 @@ CC := gcc
 LDFLAGS := 
 CFLAGS_INC := 
 CFLAGS := -g -W -Wall $(CFLAGS_INC)
+CXX := g++
+CXXFLAGS_INC :=
+CXXFLAGS := -g -W -Wall $(CFLAGS_INC)
 #
 ## ==================- NOTHING TO CHANGE BELOW THIS LINE ===================
 ##
-SRCS := $(wildcard *.c)
-BINS := $(patsubst %.c,%,$(SRCS))
+SRCS_C := $(wildcard *.c)
+BINS_C := $(patsubst %.c,%,$(SRCS_C))
+SRCS_CXX := $(wildcard *.cpp)
+BINS_CXX := $(patsubst %.cpp,%,$(SRCS_CXX))
 ##
-all: $(BINS)
+all: $(BINS_C) $(BINS_CXX)
 ##
 ## Compile the executables
-$(BINS): %: %.c
+$(BINS_C): %: %.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $<
+$(BINS_CXX): %: %.cpp
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $<
 ##
 ## Clean All
 clean:
-	$(RM) $(BINS)
+	$(RM) $(BINS_C) $(BINS_CXX)
 ##
 rebuild: clean all
 ##
