@@ -54,9 +54,9 @@ all: $(BINS_C) $(BINS_CXX)
 ##
 ## Compile the executables
 $(BINS_C): %: %.c
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $<
+	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
 $(BINS_CXX): %: %.cpp
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $<
+	$(CXX) $(CXXFLAGS) -o $@ $< $(LDFLAGS)
 ##
 ## Clean All
 clean:
