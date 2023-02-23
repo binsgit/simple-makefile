@@ -38,17 +38,24 @@
 CC := gcc
 LDFLAGS := 
 CFLAGS_INC := 
-CFLAGS := -g -W -Wall $(CFLAGS_INC)
+CFLAGS := -g --save-temps -W -Wall $(CFLAGS_INC)
 CXX := g++
 CXXFLAGS_INC :=
-CXXFLAGS := -g -W -Wall $(CFLAGS_INC)
+CXXFLAGS := -g --save-temps -W -Wall $(CFLAGS_INC)
 #
 ## ==================- NOTHING TO CHANGE BELOW THIS LINE ===================
 ##
 SRCS_C := $(wildcard *.c)
 BINS_C := $(patsubst %.c,%,$(SRCS_C))
+OBJS_C := $(patsubst %.c,%.o,$(SRCS_C))
+IIS_C := $(patsubst %.c,%.ii,$(SRCS_C))
+ASMS_C := $(patsubst %.c,%.s,$(SRCS_CXX))
 SRCS_CXX := $(wildcard *.cpp)
 BINS_CXX := $(patsubst %.cpp,%,$(SRCS_CXX))
+OBJS_CXX := $(patsubst %.cpp,%.o,$(SRCS_CXX))
+IIS_CXX := $(patsubst %.cpp,%.ii,$(SRCS_CXX))
+ASMS_CXX := $(patsubst %.cpp,%.s,$(SRCS_CXX))
+A_OUT := a.out
 ##
 all: $(BINS_C) $(BINS_CXX)
 ##
@@ -60,7 +67,7 @@ $(BINS_CXX): %: %.cpp
 ##
 ## Clean All
 clean:
-	$(RM) $(BINS_C) $(BINS_CXX)
+	$(RM) $(BINS_C) $(BINS_CXX) $(OBJS_C) $(OBJS_CXX) $(IIS_C) $(IIS_CXX) $(ASMS_C) $(ASMS_CXX) $(A_OUT)
 ##
 rebuild: clean all
 ##
